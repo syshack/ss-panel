@@ -203,26 +203,33 @@
 <script>
     $(document).ready(function () {
         $("#method-update").click(function () {
-            $.ajax({
-                type: "POST",
-                url: "method",
-                dataType: "json",
-                data: {
-                    method: $("#method").val()
-                },
-                success: function (data) {
-                    if (data.ret) {
-                        $("#ss-msg-success").show();
-                        $("#ss-msg-success-p").html(data.msg);
-                    } else {
-                        $("#ss-msg-error").show();
-                        $("#ss-msg-error-p").html(data.msg);
+            var method = $("#method").val()
+            if (!method && typeof(exp)!="undefined" && exp!=0)
+            {
+                alert("加密方式不能为空");
+            }else {
+                $.ajax({
+                    type: "POST",
+                    url: "method",
+                    dataType: "json",
+                    data: {
+                        method: method
+                    },
+                    success: function (data) {
+                        if (data.ret) {
+                            $("#ss-msg-success").show();
+                            $("#ss-msg-success-p").html(data.msg);
+                        } else {
+                            $("#ss-msg-error").show();
+                            $("#ss-msg-error-p").html(data.msg);
+                        }
+                    },
+                    error: function (jqXHR) {
+                        alert("发生错误：" + jqXHR.status);
                     }
-                },
-                error: function (jqXHR) {
-                    alert("发生错误：" + jqXHR.status);
-                }
-            })
+                })
+            }
+
         })
     })
 </script>
